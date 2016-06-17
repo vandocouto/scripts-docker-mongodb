@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Variaveis.
+HOSTNAME="MongoDB-router"
+IMAGE="centos:mongodb"
+DirLogC="/var/log/mongodb"
+DirLogH="/storage/mongo/router-log"
+IP="192.168.10.61"
+IPconfig1="192.168.10.61"
+IPconfig2="192.168.10.62"
+PORTAconfig="27010"
+PORTArouter="27017"
+SSH="2230"
+
+# Removendo o Container morto.
+docker rm -f $(docker ps -aq --filter "name=$HOSTNAME") >> /dev/null 2>&1
+
+# Iniciando o Container novo.
+docker run -dP \
+--privileged \
+-p $IP:$PORTArouter:$PORTArouter \
+-p $IP:$SSH:22 \
+--volume=$DirLogH:$DirLogC \
+--name=$HOSTNAME \
+$IMAGE
+
+# Recebendo o ID do novo container.
+id=$(docker ps -q --filter "name=$HOSTNAME")
+echo $id
+
+# docker exec.
+docker exec $id mongos --configdb configReplSet/$IPconfig1:$PORTAconfig,$IPconfig2:$PORTAconfig --port $PORTArouter --logpath $DirLogC/$HOSTNAME
