@@ -29,4 +29,4 @@ id=$(docker ps -q --filter "name=$HOSTNAME")
 echo $id
 
 # docker exec.
-docker exec $id mongos --configdb configReplSet/$IPconfig1:$PORTAconfig,$IPconfig2:$PORTAconfig --port $PORTArouter --logpath $DirLogC/$HOSTNAME
+docker exec $id mongos --configdb configReplSet/$IPconfig1:$PORTAconfig,$IPconfig2:$PORTAconfig --port $PORTArouter --logpath $DirLogC/$HOSTNAME --logRotate reopen --logappend

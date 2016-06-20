@@ -30,4 +30,4 @@ echo $id
 
 # docker exec.
 docker exec $id export LC_ALL=C
-docker exec  $id mongod --bind_ip 0.0.0.0 --port $PORTA  --dbpath $DirMongoC --logpath $DirLogC/$HOSTNAME
+docker exec  $id mongod --bind_ip 0.0.0.0 --port $PORTA  --dbpath $DirMongoC --logpath $DirLogC/$HOSTNAME --logRotate reopen --logappend
